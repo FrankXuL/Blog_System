@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,6 +16,7 @@
     <script src="editor.md/lib/prettify.min.js"></script>
     <script src="editor.md/editormd.js"></script>
 </head>
+
 <body>
     <!-- 导航栏 -->
     <div class="nav">
@@ -32,13 +34,18 @@
 
     <!-- 这个就是博客编辑页的版心 -->
     <div class="blog-edit-container">
-        <!-- 标题编辑区 -->
-        <div class="title">
-            <input type="text" id="title">
-            <button id="submit">发布文章</button>
-        </div>
-        <!-- markdown 编辑器标签 -->
-        <div id="editor"></div>
+        <form action="blog" method="POST" style="height: 100%;">
+            <!-- 标题编辑区 -->
+            <div class="title">
+                <input type="text" id="title" name="title">
+                <!-- <button id="submit">发布文章</button> -->
+                <input type="submit" id="submit" value="发布文章">
+            </div>
+            <!-- markdown 编辑器标签 -->
+            <div id="editor">
+                <textarea name="content" style="display: none;"></textarea>
+            </div>
+        </form>
     </div>
 
     <script>

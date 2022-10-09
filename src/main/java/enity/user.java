@@ -10,6 +10,8 @@ public class user {
     private int userId;
     private String username;
     private String password;
+    private int isYourBlog;
+    private int articleNumber;
 
     public int getUserId() {
         return userId;
@@ -35,6 +37,14 @@ public class user {
         this.password = password;
     }
 
+    public int getArticleNumber() {
+        return articleNumber;
+    }
+
+    public void setArticleNumber(int articleNumber) {
+        this.articleNumber = articleNumber;
+    }
+
     @Override
     public String toString() {
         return "user{" +
@@ -42,5 +52,13 @@ public class user {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    public int getIsYourBlog() {
+        return isYourBlog;
+    }
+
+    public void setIsYourBlog(int isYourBlog) {
+        this.isYourBlog = isYourBlog;
     }
 }

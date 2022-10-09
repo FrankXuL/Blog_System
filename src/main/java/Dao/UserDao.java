@@ -17,12 +17,12 @@ import java.util.List;
  * @Version 1.0
  */
 public class UserDao implements Dao<user> {
-    private static Connection connection = null;
-    private static PreparedStatement statement = null;
-    private static ResultSet resultSet = null;
+
 
     @Override
     public void insert(user user) {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
             connection = DBUtil.getConnection();
             String sql = "insert into user values(null,?,?)";
@@ -38,12 +38,15 @@ public class UserDao implements Dao<user> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBUtil.close(connection, statement, resultSet);
+            DBUtil.close(connection, statement, null);
         }
     }
 
     @Override
     public List<user> selectAll() {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = DBUtil.getConnection();
             String sql = "slect * from user";
@@ -68,6 +71,9 @@ public class UserDao implements Dao<user> {
 
     @Override
     public user selectById(int Id) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = DBUtil.getConnection();
             String sql = "select * from user where userId = ?";
@@ -91,24 +97,29 @@ public class UserDao implements Dao<user> {
 
     @Override
     public void delete(int blogId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
             connection = DBUtil.getConnection();
             String sql = "delete from user whre blogId = ?";
             statement = connection.prepareStatement(sql);
             int ret = statement.executeUpdate();
-            if (ret == 1){
+            if (ret == 1) {
                 System.out.println("删除成功");
-            }else{
+            } else {
                 System.out.println("删除失败");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBUtil.close(connection, statement, resultSet);
+            DBUtil.close(connection, statement, null);
         }
     }
 
     public user selectByName(String username) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = DBUtil.getConnection();
             String sql = "select * from user where userName = ?";

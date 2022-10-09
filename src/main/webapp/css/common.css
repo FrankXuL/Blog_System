@@ -117,3 +117,8 @@ html, body {
     justify-content: space-around;
     padding: 5px;
 }
+.card .articlenumber {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+}

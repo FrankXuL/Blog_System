@@ -12,10 +12,13 @@ import java.util.List;
 public interface Dao<E> {
     //插入
     public void insert(E e);
+
     //查询所有
     public List<E> selectAll();
+
     //通过Id查询
     public E selectById(int id);
+
     //通过Id删除
     public void delete(int id);
 }

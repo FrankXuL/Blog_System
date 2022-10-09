@@ -17,12 +17,11 @@ import java.util.List;
  * @Version 1.0
  */
 public class BlogDao implements Dao<Blog> {
-    private static Connection connection = null;
-    private static PreparedStatement statement = null;
-    private static ResultSet resultSet = null;
-
     @Override
     public void insert(Blog blog) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = DBUtil.getConnection();
             String sql = "insert into blog values(null,?,?,?,?)";
@@ -45,7 +44,10 @@ public class BlogDao implements Dao<Blog> {
     }
 
     @Override
-    public List<Blog> selectAll() {
+    public synchronized List<Blog> selectAll() {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         List<Blog> blogs = new ArrayList<>();
         try {
             connection = DBUtil.getConnection();
@@ -77,11 +79,14 @@ public class BlogDao implements Dao<Blog> {
 
     @Override
     public Blog selectById(int blogId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = DBUtil.getConnection();
             String sql = "select * from blog where blogId = ?";
             statement = connection.prepareStatement(sql);
-            statement.setInt(1,blogId);
+            statement.setInt(1, blogId);
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 Blog blog = new Blog();
@@ -102,11 +107,13 @@ public class BlogDao implements Dao<Blog> {
 
     @Override
     public void delete(int blogId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
             connection = DBUtil.getConnection();
             String sql = "delete from blog where blogId = ?";
             statement = connection.prepareStatement(sql);
-            statement.setInt(1,blogId);
+            statement.setInt(1, blogId);
             int ret = statement.executeUpdate();
             if (ret == 1) {
                 System.out.println("删除成功");
@@ -115,8 +122,42 @@ public class BlogDao implements Dao<Blog> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            DBUtil.close(connection,statement,resultSet);
+        } finally {
+            DBUtil.close(connection, statement, null);
         }
+    }
+
+    public synchronized int selectArticles(int userId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBUtil.getConnection();
+            List<Blog> blogs = new ArrayList<Blog>();
+            String sql = "select * from blog where userId= ?";
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Blog blog = new Blog();
+//                blog.setBlogId(resultSet.getInt("blogId"));
+//                blog.setTitle(resultSet.getString("title"));
+//                //blog.setContent(resultSet.getString(""));
+//                String content = resultSet.getString("content");
+//                if (content.length() > 90) {
+//                    content = content.substring(0, 90) + "...";
+//                }
+//                blog.setContent(content);
+//                blog.setPostTime(resultSet.getTimestamp("postTime"));
+//                blog.setUserId(resultSet.getInt("userId"));
+                blogs.add(blog);
+            }
+            return blogs.size();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.close(connection, statement, resultSet);
+        }
+        return -1;
     }
 }
