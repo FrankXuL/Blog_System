@@ -12,6 +12,7 @@ import java.util.List;
  * @Date: 2022/9/26 21:33
  * @Version 1.0
  */
+@SuppressWarnings({"all"})
 public class Test {
     public static void main(String[] args) {
         UserDao userDao = new UserDao();

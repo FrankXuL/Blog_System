@@ -18,6 +18,7 @@ import java.io.IOException;
  * @Date: 9/10/2022 下午 3:08
  * @Version 1.0
  */
+@SuppressWarnings({"all"})
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     @Override

@@ -14,6 +14,7 @@ import java.io.IOException;
  * @Date: 9/10/2022 下午 6:40
  * @Version 1.0
  */
+@SuppressWarnings({"all"})
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
     @Override

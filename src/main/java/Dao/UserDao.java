@@ -16,6 +16,8 @@ import java.util.List;
  * @Date: 2022/9/26 23:05
  * @Version 1.0
  */
+@SuppressWarnings({"all"})
+
 public class UserDao implements Dao<user> {
 
 

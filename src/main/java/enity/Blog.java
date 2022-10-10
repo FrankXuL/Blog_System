@@ -8,6 +8,8 @@ import java.sql.Timestamp;
  * @Date: 2022/9/26 23:04
  * @Version 1.0
  */
+@SuppressWarnings({"all"})
+
 public class Blog {
     private int blogId;
     private String title;

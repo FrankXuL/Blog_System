@@ -16,6 +16,7 @@ import java.util.List;
  * @Date: 2022/9/26 23:05
  * @Version 1.0
  */
+@SuppressWarnings({"all"})
 public class BlogDao implements Dao<Blog> {
     @Override
     public void insert(Blog blog) {
@@ -44,7 +45,7 @@ public class BlogDao implements Dao<Blog> {
     }
 
     @Override
-    public synchronized List<Blog> selectAll() {
+    public List<Blog> selectAll() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -127,7 +128,7 @@ public class BlogDao implements Dao<Blog> {
         }
     }
 
-    public synchronized int selectArticles(int userId) {
+    public int selectArticles(int userId) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -159,5 +160,28 @@ public class BlogDao implements Dao<Blog> {
             DBUtil.close(connection, statement, resultSet);
         }
         return -1;
+    }
+
+    public void update(Blog blog) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DBUtil.getConnection();
+            String sql = "update blog set title=?, content=? where blogId = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, blog.getTitle());
+            statement.setString(2, blog.getContent());
+            statement.setInt(3, blog.getBlogId());
+            int ret = statement.executeUpdate();
+            if (ret == 1) {
+                System.out.println("update success");
+            } else {
+                System.out.println("update failure");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.close(connection, statement, null);
+        }
     }
 }

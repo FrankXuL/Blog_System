@@ -21,6 +21,8 @@ import java.util.List;
  * @Date: 8/10/2022 上午 9:58
  * @Version 1.0
  */
+@SuppressWarnings({"all"})
+
 @WebServlet("/blog")
 public class BlogServlet extends HttpServlet {
     static ObjectMapper objectMapper = new ObjectMapper();

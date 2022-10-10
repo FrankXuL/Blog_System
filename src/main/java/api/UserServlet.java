@@ -20,6 +20,7 @@ import java.io.IOException;
  * @Date: 9/10/2022 下午 4:10
  * @Version 1.0
  */
+@SuppressWarnings({"all"})
 @WebServlet("/user")
 public class UserServlet extends HttpServlet {
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -37,9 +38,9 @@ public class UserServlet extends HttpServlet {
         user.setArticleNumber(new BlogDao().selectArticles(user.getUserId()));
         String blogId = req.getParameter("blogId");
         if (blogId == null) {
-           String jsonString = objectMapper.writeValueAsString(user);
-           resp.getWriter().write(jsonString);
-        }else{
+            String jsonString = objectMapper.writeValueAsString(user);
+            resp.getWriter().write(jsonString);
+        } else {
             BlogDao blogDao = new BlogDao();
             Blog blog = blogDao.selectById(Integer.parseInt(blogId));
             if (blog == null) {

@@ -39,9 +39,9 @@
                 <h3></h3>
                 <!-- 用户的 github -->
                 <a href="">github 地址</a>
-                <div class = "articlenumber">  
+                <div class="articlenumber">
                     <span>文章数:</span>
-                        
+
                 </div>
                 <!-- 统计信息 -->
                 <div class="counter">
@@ -127,7 +127,7 @@
             }
         });
 
-        function changeUser(user) {
+        function changeUser(user, blog) {
             let h3 = document.querySelector('.card>h3');
             h3.innerHTML = user.username;
             //文章数
@@ -143,9 +143,21 @@
                 delButton.innerHTML = '删除';
                 delButton.href = '#';
                 delButton.onclick = deleteBlog;
-                navDiv.appendChild(delButton);
+                navDiv.appendChild(delButton)
+                let editButton = document.createElement('a');
+                editButton.innerHTML = '编辑';
+                editButton.href = 'blog_edit.html?blogId=' + geturlparam();
+                //editButton.onclick = editBlog;
+                navDiv.appendChild(editButton);
             }
         }
+        function geturlparam() {
+            let url = location.search;
+            let p = url.split('?')[1]
+            let params = new URLSearchParams(p)
+            return params.get('blogId'); //1
+        }
+    
         function deleteBlog() {
             $.ajax({
                 url: 'blog' + location.search,

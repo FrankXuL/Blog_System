@@ -43,7 +43,8 @@
             </div>
             <!-- markdown 编辑器标签 -->
             <div id="editor">
-                <textarea name="content" style="display: none;"></textarea>
+                <textarea name="content" style="display: none;">
+                </textarea>
             </div>
         </form>
     </div>
@@ -64,6 +65,44 @@
             // 指定 editor.md 依赖的插件路径
             path: "editor.md/lib/"
         });
+        $.ajax({
+            url: 'update' + location.search,
+            method: 'GET',
+            success: function (data, status) {
+                console.log("success");
+                editBlog(data);
+            },
+            error: function (data, status) {
+                console.log("error");
+            }
+        })
+        function editBlog(blog) {
+            if (blog == null) {
+                var editor = editormd("editor", {
+                    // 这里的尺寸必须在这里设置. 设置样式会被 editormd 自动覆盖掉. 
+                    width: "100%",
+                    // 设定编辑器高度
+                    height: "calc(100% - 50px)",
+                    // 编辑器中的初始内容
+                    markdown: "# 在此处编写博客正文",
+                    // 指定 editor.md 依赖的插件路径
+                    path: "editor.md/lib/"
+                })
+            } else {
+                $('#title').val(blog.title);
+                var editor = editormd("editor", {
+                    // 这里的尺寸必须在这里设置. 设置样式会被 editormd 自动覆盖掉. 
+                    width: "100%",
+                    // 设定编辑器高度
+                    height: "calc(100% - 50px)",
+                    // 编辑器中的初始内容
+                    markdown: blog.content,
+                    // 指定 editor.md 依赖的插件路径
+                    path: "editor.md/lib/"
+                })
+            }
+        }
     </script>
 </body>
+
 </html>
