@@ -27,10 +27,11 @@ public class UserDao implements Dao<user> {
         PreparedStatement statement = null;
         try {
             connection = DBUtil.getConnection();
-            String sql = "insert into user values(null,?,?)";
+            String sql = "insert into user values(null,?,?,?)";
             statement = connection.prepareStatement(sql);
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getPassword());
+            statement.setString(3, user.getGithub());
             int ret = statement.executeUpdate();
             if (ret == 1) {
                 System.out.println("插入成功");
@@ -60,6 +61,7 @@ public class UserDao implements Dao<user> {
                 user.setUserId(resultSet.getInt("userId"));
                 user.setPassword(resultSet.getString("passWord"));
                 user.setUsername(resultSet.getString("userName"));
+                user.setGithub(resultSet.getString("github"));
                 list.add(user);
             }
             return list;
@@ -87,6 +89,7 @@ public class UserDao implements Dao<user> {
                 user.setUserId(resultSet.getInt("userId"));
                 user.setPassword(resultSet.getString("passWord"));
                 user.setUsername(resultSet.getString("userName"));
+                user.setGithub(resultSet.getString("github"));
                 return user;
             }
         } catch (SQLException e) {
@@ -133,6 +136,7 @@ public class UserDao implements Dao<user> {
                 user.setUserId(resultSet.getInt("userId"));
                 user.setPassword(resultSet.getString("passWord"));
                 user.setUsername(resultSet.getString("userName"));
+                user.setGithub(resultSet.getString("github"));
                 return user;
             }
         } catch (SQLException e) {

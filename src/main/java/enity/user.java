@@ -12,6 +12,7 @@ public class user {
     private int userId;
     private String username;
     private String password;
+    private String github;
     private int isYourBlog;
     private int articleNumber;
 
@@ -45,6 +46,14 @@ public class user {
 
     public void setArticleNumber(int articleNumber) {
         this.articleNumber = articleNumber;
+    }
+
+    public String getGithub() {
+        return github;
+    }
+
+    public void setGithub(String github) {
+        this.github = github;
     }
 
     @Override

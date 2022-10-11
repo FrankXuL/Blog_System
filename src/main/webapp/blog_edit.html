@@ -50,21 +50,21 @@
     </div>
 
     <script>
-        // 初始化编辑器
-        // 先创建一个 editor 对象. 
-        // editormd 相当于一个函数, 生成一个 editor 对象
-        // 第一个参数是指定要和哪个 html 的元素关联起来. 
-        // 生成的编辑器要放到哪个 html 标签中. 值就是 html 标签的 id
-        var editor = editormd("editor", {
-            // 这里的尺寸必须在这里设置. 设置样式会被 editormd 自动覆盖掉. 
-            width: "100%",
-            // 设定编辑器高度
-            height: "calc(100% - 50px)",
-            // 编辑器中的初始内容
-            markdown: "# 在此处编写博客正文",
-            // 指定 editor.md 依赖的插件路径
-            path: "editor.md/lib/"
-        });
+        // // 初始化编辑器
+        // // 先创建一个 editor 对象. 
+        // // editormd 相当于一个函数, 生成一个 editor 对象
+        // // 第一个参数是指定要和哪个 html 的元素关联起来. 
+        // // 生成的编辑器要放到哪个 html 标签中. 值就是 html 标签的 id
+        // var editor = editormd("editor", {
+        //     // 这里的尺寸必须在这里设置. 设置样式会被 editormd 自动覆盖掉. 
+        //     width: "100%",
+        //     // 设定编辑器高度
+        //     height: "calc(100% - 50px)",
+        //     // 编辑器中的初始内容
+        //     markdown: "# 在此处编写博客正文",
+        //     // 指定 editor.md 依赖的插件路径
+        //     path: "editor.md/lib/"
+        // });
         $.ajax({
             url: 'update' + location.search,
             method: 'GET',
