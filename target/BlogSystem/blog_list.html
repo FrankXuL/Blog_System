@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客列表</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/blog_list.css">
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <div class="nav">
+        <!-- logo -->
+        <img src="image/image1.jpg" alt="">
+        <!-- 标题 -->
+        <span class="title">博客系统</span>
+        <!-- 空白的占位符 -->
+        <span class="spacer"></span>
+        <!-- 右侧的几个链接 -->
+        <a href="blog_list.html">主页</a>
+        <a href="blog_edit.html">写博客</a>
+        <a href="logout">注销</a>
+    </div>
+
+    <!-- 版心 -->
+    <div class="container">
+        <!-- 左侧个人信息 -->
+        <div class="left">
+
+            <!-- 个人信息卡片 -->
+            <div class="card">
+                <!-- 用户头像 -->
+                <img src="image/image1.jpg" alt="">
+                <!-- 用户名字 -->
+                <h3></h3>
+                <!-- 用户的 github -->
+                <a href=''></a>
+                <!-- 该用户文章数 -->
+                <!-- 统计信息 -->
+                <div class="articlenumber">
+                    <span>文章数:</span>
+
+                </div>
+                <div class="counter">
+                    <span>文章</span>
+                    <span>分类</span>
+                </div>
+                <div class="counter">
+                    <span>2</span>
+                    <span>1</span>
+                </div>
+            </div>
+
+        </div>
+        <!-- 右侧内容详情 -->
+        <div class="right">
+
+        </div>
+    </div>
+    <script src="js/jquery.min.js"> </script>
+    <script>
+        $.ajax({
+            url: 'blog',
+            method: 'GET',
+            success: function (data, status) {
+                console.log(status);
+                buildBolgs(data);
+            },
+            error: function (data, status) {
+                console.log(status);
+                location.assign('login.html');
+            }
+        })
+        function buildBolgs(blogs) {
+
+            let rightDiv = document.querySelector('.container .right');
+
+            for (let blog of blogs) {
+                //构造博客
+                let blogDiv = document.createElement('div');
+                blogDiv.className = 'blog';
+                //构造博客的标题
+                let titleDiv = document.createElement('div');
+                titleDiv.className = 'title';
+                titleDiv.innerHTML = blog.title;
+                blogDiv.appendChild(titleDiv);
+                //构造博客的时间
+                let dateDiv = document.createElement('div');
+                dateDiv.className = 'date';
+                dateDiv.innerHTML = formatDate(blog.postTime);
+                blogDiv.appendChild(dateDiv);
+                //构造博客的正文
+                let descDiv = document.createElement('div');
+                descDiv.className = 'desc';
+                descDiv.innerHTML = blog.content;
+                blogDiv.appendChild(descDiv);
+                //构造博客的查看全文
+                let detailA = document.createElement('a');
+                detailA.className = 'detail';
+                detailA.innerHTML = '查看全文 &gt &gt;';
+                detailA.href = 'blog_detail.html?blogId=' + blog.blogId;
+                blogDiv.appendChild(detailA);
+
+                rightDiv.appendChild(blogDiv);
+            }
+        }
+        function formatDate(timeStampMS) {
+            var date = new Date(timeStampMS);
+
+            var year = date.getFullYear(),
+                month = date.getMonth() + 1,//月份是从0开始的
+                day = date.getDate(),
+                hour = date.getHours(),
+                min = date.getMinutes(),
+                sec = date.getSeconds();
+            var newTime = year + '-' +
+                (month < 10 ? '0' + month : month) + '-' +
+                (day < 10 ? '0' + day : day) + ' ' +
+                (hour < 10 ? '0' + hour : hour) + ':' +
+                (min < 10 ? '0' + min : min) + ':' +
+                (sec < 10 ? '0' + sec : sec);
+            return newTime;
+        }
+        $.ajax({
+            url: 'user',
+            method: 'GET',
+            success: function (data, status) {
+                changeUser(data);
+            }
+        });
+
+        function changeUser(user) {
+            let h3 = document.querySelector('.card>h3');
+            h3.innerHTML = user.username;
+            if (user.github == null) {
+                //todo
+            } else {
+                let gita = document.querySelector('.card>a');
+                gita.innerHTML = user.github;
+                gita.href = user.github;
+            }
+            //文章数
+            let articles = document.createElement('span');
+            articles.className = 'articles';
+            articles.innerHTML = user.articleNumber;
+            let articleNumber = document.querySelector('.card>.articlenumber');
+            articleNumber.appendChild(articles);
+        }
+    </script>
+</body>
+
+</html>

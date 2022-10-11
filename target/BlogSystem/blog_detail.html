@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客详情</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/blog_detail.css">
+    <!-- 引入 editor.md 的依赖 -->
+    <link rel="stylesheet" href="editor.md/css/editormd.min.css" />
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <div class="nav">
+        <!-- logo -->
+        <img src="image/image1.jpg" alt="">
+        <!-- 标题 -->
+        <span class="title">我的博客系统</span>
+        <!-- 空白的占位符 -->
+        <span class="spacer"></span>
+        <!-- 右侧的几个链接 -->
+        <a href="blog_list.html">主页</a>
+        <a href="blog_edit.html">写博客</a>
+        <a href="logout">注销</a>
+    </div>
+
+    <div class="container">
+        <!-- 左侧个人信息 -->
+        <div class="left">
+
+            <!-- 个人信息卡片 -->
+            <div class="card">
+                <!-- 用户头像 -->
+                <img src="image/image1.jpg" alt="">
+                <!-- 用户名字 -->
+                <h3></h3>
+                <!-- 用户的 github -->
+                <a href="">github 地址</a>
+                <div class="articlenumber">
+                    <span>文章数:</span>
+
+                </div>
+                <!-- 统计信息 -->
+                <div class="counter">
+                    <span>文章</span>
+                    <span>分类</span>
+                </div>
+                <div class="counter">
+                    <span>2</span>
+                    <span>1</span>
+                </div>
+            </div>
+
+        </div>
+        <!-- 右侧文章内容 -->
+        <div class="right">
+            <!-- 这个 div 对应博客详情的整个部分 -->
+            <div class="blog-content">
+                <!-- 博客标题 -->
+                <h3></h3>
+                <!-- 博客发布时间 -->
+                <div class="date">
+
+                </div>
+                <!-- 博客正文 -->
+                <div id='content' style="background-color:transparent;">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 在这个页面加载的时候, 给服务器发送 ajax 请求, 获取到博客的详细内容, 并在页面上进行显示 -->
+    <script src="js/jquery.min.js"></script>
+    <script src="editor.md/lib/marked.min.js"></script>
+    <script src="editor.md/lib/prettify.min.js"></script>
+    <script src="editor.md/editormd.js"></script>
+    <script>
+        $.ajax({
+            url: 'blog' + location.search,
+            method: 'GET',
+            success: function (data, status) {
+                console.log("enter success status" + status);
+                buildBlog(data);
+            },
+            error: function (data, status) {
+                console.log("enter error status " + status);
+                location.assign('login.html');
+            }
+        })
+        function buildBlog(blog) {
+            //标题
+            let titleDiv = document.querySelector('.blog-content>h3');
+            titleDiv.innerHTML = blog.title;
+            //时间
+            let dateDiv = document.querySelector('.blog-content>.date');
+            dateDiv.innerHTML = formatDate(blog.postTime);
+
+            //正文
+            editormd.markdownToHTML('content', { markdown: blog.content });
+        }
+
+        function formatDate(timeStampMS) {
+            var date = new Date(timeStampMS);
+
+            var year = date.getFullYear(),
+                month = date.getMonth() + 1,//月份是从0开始的
+                day = date.getDate(),
+                hour = date.getHours(),
+                min = date.getMinutes(),
+                sec = date.getSeconds();
+            var newTime = year + '-' +
+                (month < 10 ? '0' + month : month) + '-' +
+                (day < 10 ? '0' + day : day) + ' ' +
+                (hour < 10 ? '0' + hour : hour) + ':' +
+                (min < 10 ? '0' + min : min) + ':' +
+                (sec < 10 ? '0' + sec : sec);
+            return newTime;
+        }
+        $.ajax({
+            url: 'user' + location.search,
+            method: 'GET',
+            success: function (data, status) {
+                changeUser(data);
+            }
+        });
+
+        function changeUser(user, blog) {
+            let h3 = document.querySelector('.card>h3');
+            h3.innerHTML = user.username;
+            //文章数
+            let articles = document.createElement('span');
+            articles.className = 'articles';
+            articles.innerHTML = user.articleNumber;
+            let articleNumber = document.querySelector('.card>.articlenumber');
+            articleNumber.appendChild(articles);
+
+            if (user.isYourBlog) {
+                let navDiv = document.querySelector('.nav');
+                let delButton = document.createElement('a');
+                delButton.innerHTML = '删除';
+                delButton.href = '#';
+                delButton.onclick = deleteBlog;
+                navDiv.appendChild(delButton)
+                let editButton = document.createElement('a');
+                editButton.innerHTML = '编辑';
+                editButton.href = 'blog_edit.html?blogId=' + geturlparam();
+                //editButton.onclick = editBlog;
+                navDiv.appendChild(editButton);
+            }
+        }
+        function geturlparam() {
+            let url = location.search;
+            let p = url.split('?')[1]
+            let params = new URLSearchParams(p)
+            return params.get('blogId'); //1
+        }
+    
+        function deleteBlog() {
+            $.ajax({
+                url: 'blog' + location.search,
+                method: 'DELETE',
+                success: function (data, status) {
+                    location.assign('blog_list.html');
+                }
+            })
+        }
+    </script>
+
+</body>
+
+</html>

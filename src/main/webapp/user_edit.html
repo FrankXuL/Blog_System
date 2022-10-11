@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<style>
+    label.change-style {
+        position: relative;
+        display: inline-block;
+        text-align: center;
+        line-height: 30px;
+    }
+
+    #upload-file2 {
+        width: 50px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    li {
+        margin: 15px 0;
+    }
+
+    img[src=""] {
+        opacity: 0;
+    }
+
+    .change-style img {
+        width: 100px;
+        height: auto;
+        vertical-align: top;
+    }
+</style>
+
+<body>
+    <!-- 导航栏 -->
+    <div class="nav">
+        <!-- logo -->
+        <img src="image/image1.jpg" alt="">
+        <!-- 标题 -->
+        <span class="title">我的博客系统</span>
+        <!-- 空白的占位符 -->
+        <span class="spacer"></span>
+        <!-- 右侧的几个链接 -->
+        <a href="blog_list.html">主页</a>
+        <a href="blog_edit.html">写博客</a>
+        <a href="logout" style="display: none;">注销</a>
+    </div>
+
+    <div class="edit-container">
+        <div class="edit-dialog">
+            <form action="useredit" method="post">
+                <!-- 标题 -->
+                <h3>个人信息管理</h3>
+                <!-- 输入用户名 -->
+                <div class="row">
+                    <span>用户名</span>
+                    <input type="text" id="username" name="username">
+                </div>
+                <!-- 输入密码 -->
+                <div class="row">
+                    <span>密码</span>
+                    <input type="password" id="password" name="password">
+                </div>
+                <!-- 再次确认密码 -->
+                <div class="row">
+                    <span>确认密码</span>
+                    <input type="password" id="password" name="password">
+                </div>
+                <div class="row">
+                    <ul>
+                        <li>
+                            <label for="upload-file">上传文件</label>
+                            <input type="file" accept="image/*" id="upload-file">
+                        </li>
+                    </ul>
+                </div>
+                <!-- 提交按钮 -->
+                <div class="row submit-row">
+                    <input id="submit" type="submit" value='确定'>
+                </div>
+            </form>
+            <div class = 'row submit-row'>
+                <button id="submit" type="submit" value="重填" href='user_edit.html'>重填</button>
+            </div>
+        </div>
+    </div>
+    <script src="js/jquery.min.js"> </script>
+    <script>
+        $.ajax({
+            url: 'user',
+            method: 'GET',
+            success: function (data, status) {
+                changeUser(data);
+            }
+        });
+
+        function changeUser(user) {
+            let h3 = document.querySelector('.card>h3');
+            h3.innerHTML = user.username;
+
+            //gitlink
+            let gita = document.querySelector('.card>a');
+            gita.innerHTML = user.github;
+            gita.href = user.github;
+
+            //文章数
+            let articles = document.createElement('span');
+            articles.className = 'articles';
+            articles.innerHTML = user.articleNumber;
+            let articleNumber = document.querySelector('.card>.articlenumber');
+            articleNumber.appendChild(articles);
+
+            //添加用户管理
+            let navDiv = document.querySelector('.nav');
+            let userEditButton = document.createElement('a');
+            userEditButton.innerHTML = '用户管理';
+            editButton.href = 'user_edit.html?userId=' + user.userId;
+            navDiv.appendChild(userEditButton);
+        }
+        select_img_button.onclick = function () {
+            var ie = navigator.appName == "Microsoft Internet Explorer" ? true : false;
+
+            if (ie) {
+                inputImgFile.click();
+            } else {
+                var a = document.createEvent("MouseEvents");
+                a.initEvent("click", true, true);
+                inputImgFile.dispatchEvent(a);
+            }
+        }
+    </script>
+</body>
+
+</html>
