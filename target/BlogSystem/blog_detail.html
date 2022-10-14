@@ -32,7 +32,7 @@
         <div class="left">
 
             <!-- 个人信息卡片 -->
-            <div class="card">
+            <div class="card1">
                 <!-- 用户头像 -->
                 <img src="image/image1.jpg" alt="">
                 <!-- 用户名字 -->
@@ -120,34 +120,49 @@
             return newTime;
         }
         $.ajax({
-            url: 'user' + location.search,
+            url: 'user'+ location.search,
             method: 'GET',
             success: function (data, status) {
+                console.log(status+data);
                 changeUser(data);
-            }
+            },
+            error: function (data, status) {
+                console.log(status);
+            }  
         });
 
-        function changeUser(user, blog) {
-            let h3 = document.querySelector('.card>h3');
+        function changeUser(user) {
+            let h3 = document.querySelector('.card1>h3');
             h3.innerHTML = user.username;
+            //git链接
+            let gita = document.querySelector('.card1>a');
+            gita.innerHTML = user.github;
+            gita.href = user.github;
             //文章数
             let articles = document.createElement('span');
             articles.className = 'articles';
             articles.innerHTML = user.articleNumber;
-            let articleNumber = document.querySelector('.card>.articlenumber');
+            let articleNumber = document.querySelector('.card1>.articlenumber');
             articleNumber.appendChild(articles);
 
+            //添加用户管理
+            let navDiv = document.querySelector('.nav');
+            let userEditButton = document.createElement('a');
+            userEditButton.innerHTML = '用户管理';
+            userEditButton.href = 'user_edit.html?userId=' + user.userId;
+            navDiv.appendChild(userEditButton);
             if (user.isYourBlog) {
                 let navDiv = document.querySelector('.nav');
+                //添加博客删除
                 let delButton = document.createElement('a');
                 delButton.innerHTML = '删除';
                 delButton.href = '#';
                 delButton.onclick = deleteBlog;
                 navDiv.appendChild(delButton)
+                //添加博客编辑
                 let editButton = document.createElement('a');
                 editButton.innerHTML = '编辑';
                 editButton.href = 'blog_edit.html?blogId=' + geturlparam();
-                //editButton.onclick = editBlog;
                 navDiv.appendChild(editButton);
             }
         }
@@ -157,12 +172,13 @@
             let params = new URLSearchParams(p)
             return params.get('blogId'); //1
         }
-    
+
         function deleteBlog() {
             $.ajax({
                 url: 'blog' + location.search,
                 method: 'DELETE',
                 success: function (data, status) {
+                    console.log("enter success status" + status);
                     location.assign('blog_list.html');
                 }
             })

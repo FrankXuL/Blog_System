@@ -51,7 +51,7 @@ public class UserServlet extends HttpServlet {
             }
             UserDao userDao = new UserDao();
             user author = userDao.selectById(blog.getUserId());
-            author.setArticleNumber(new BlogDao().selectArticles(blog.getUserId()));
+            author.setArticleNumber(blogDao.selectArticles(blog.getUserId()));
             author.setIsYourBlog(author.getUserId() == user.getUserId() ? 1 : 0);
             String jsonString = objectMapper.writeValueAsString(author);
             resp.getWriter().write(jsonString);

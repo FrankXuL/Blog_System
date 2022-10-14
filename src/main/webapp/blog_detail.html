@@ -120,32 +120,36 @@
             return newTime;
         }
         $.ajax({
-            url: 'user' + location.search,
+            url: 'user'+ location.search,
             method: 'GET',
             success: function (data, status) {
+                console.log(status+data);
                 changeUser(data);
-            }
+            },
+            error: function (data, status) {
+                console.log(status);
+            }  
         });
 
-        function changeUser(user, blog) {
-            let h3 = document.querySelector('.card>h3');
+        function changeUser(user) {
+            let h3 = document.querySelector('.card1>h3');
             h3.innerHTML = user.username;
             //git链接
-            let gita = document.querySelector('.card>a');
+            let gita = document.querySelector('.card1>a');
             gita.innerHTML = user.github;
             gita.href = user.github;
             //文章数
             let articles = document.createElement('span');
             articles.className = 'articles';
             articles.innerHTML = user.articleNumber;
-            let articleNumber = document.querySelector('.card>.articlenumber');
+            let articleNumber = document.querySelector('.card1>.articlenumber');
             articleNumber.appendChild(articles);
 
             //添加用户管理
             let navDiv = document.querySelector('.nav');
             let userEditButton = document.createElement('a');
             userEditButton.innerHTML = '用户管理';
-            editButton.href = 'user_edit.html?userId=' + user.userId;
+            userEditButton.href = 'user_edit.html?userId=' + user.userId;
             navDiv.appendChild(userEditButton);
             if (user.isYourBlog) {
                 let navDiv = document.querySelector('.nav');
@@ -174,6 +178,7 @@
                 url: 'blog' + location.search,
                 method: 'DELETE',
                 success: function (data, status) {
+                    console.log("enter success status" + status);
                     location.assign('blog_list.html');
                 }
             })

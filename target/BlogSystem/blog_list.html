@@ -135,19 +135,25 @@
         function changeUser(user) {
             let h3 = document.querySelector('.card>h3');
             h3.innerHTML = user.username;
-            if (user.github == null) {
-                //todo
-            } else {
-                let gita = document.querySelector('.card>a');
-                gita.innerHTML = user.github;
-                gita.href = user.github;
-            }
+            
+            //gitlink
+            let gita = document.querySelector('.card>a');
+            gita.innerHTML = user.github;
+            gita.href = user.github;
+
             //文章数
             let articles = document.createElement('span');
             articles.className = 'articles';
             articles.innerHTML = user.articleNumber;
             let articleNumber = document.querySelector('.card>.articlenumber');
             articleNumber.appendChild(articles);
+
+            //添加用户管理
+            let navDiv = document.querySelector('.nav');
+            let userEditButton = document.createElement('a');
+            userEditButton.innerHTML = '用户管理';
+            userEditButton.href = 'user_edit.html?userId=' + user.userId;
+            navDiv.appendChild(userEditButton);
         }
     </script>
 </body>
