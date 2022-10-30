@@ -16,9 +16,9 @@ import java.sql.SQLException;
  * @Version 1.0
  */
 public class DBUtil {
-    private static final String URL = "jdbc:mysql://localhost:3306/blogsystem?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false";
+    private static final String URL = "jdbc:mysql://localhost:3306/blog_system?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=UTC";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "123456";
 
     public static volatile DataSource datasource = null;
 
@@ -37,7 +37,7 @@ public class DBUtil {
     }
 
     public static Connection getConnection() throws SQLException {
-        return  getDatasource().getConnection();
+        return  getDatasource(). getConnection();
     }
 
     public static void close(Connection connection, PreparedStatement statement, ResultSet resultSet){
@@ -62,5 +62,9 @@ public class DBUtil {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void main(String[] args) throws SQLException {
+        Connection connection = DBUtil.getConnection();
     }
 }

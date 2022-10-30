@@ -52,7 +52,7 @@ public class UserDao implements Dao<user> {
         ResultSet resultSet = null;
         try {
             connection = DBUtil.getConnection();
-            String sql = "slect * from user";
+            String sql = "select * from user";
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
             List<user> list = new ArrayList<>();

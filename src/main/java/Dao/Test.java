@@ -18,7 +18,7 @@ public class Test {
         UserDao userDao = new UserDao();
         // 1. 测试一下新增用户
         user user = new user();
-        user.setUsername("oasis");
+        user.setUsername("oasis1");
         user.setPassword("123456");
         UserDao dao = new UserDao();
         userDao.insert(user);
